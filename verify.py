@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+import zipfile, xml.dom.minidom as m
+p = r"C:\Users\shr18\Desktop\综合创新实践实习报告（完整版）.docx"
+z = zipfile.ZipFile(p)
+names = z.namelist()
+print("media:", [n for n in names if "media" in n])
+m.parseString(z.read("word/document.xml").decode("utf-8"))
+print("document.xml valid")
+d = z.read("word/document.xml").decode("utf-8")
+print("表格数:", d.count("<w:tbl>"))
+print("图片drawing数:", d.count("<w:drawing>"))
+ct = z.read("[Content_Types].xml").decode("utf-8")
+print("含png Default:", 'Extension="png"' in ct)
+rels = z.read("word/_rels/document.xml.rels").decode("utf-8")
+print("rels rId7-11:", all(("rId%d" % i) in rels for i in range(7, 12)))
+print("标题保留:", all(k in d for k in ["综合创新实践实习报告", "毕业要求指标点", "实习成绩及评语", "实习报告正文"]))

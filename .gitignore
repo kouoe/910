@@ -1,0 +1,19 @@
+# Maven 编译产物
+target/
+spring-ai-sx/target/
+
+# 编辑器配置
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+
+# 日志与临时文件
+*.log
+*.tmp
+.DS_Store

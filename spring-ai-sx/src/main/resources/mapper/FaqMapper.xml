@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- FAQ Mapper XML 映射文件：与 com.airi.ai.agent.mapper.FaqMapper 接口对应 -->
+<mapper namespace="com.airi.ai.agent.mapper.FaqMapper">
+
+    <!-- FAQ 结果映射（显式声明，提高可读性） -->
+    <resultMap id="faqResultMapXml" type="com.airi.ai.agent.pojo.Faq">
+        <id     column="id"          property="id" />
+        <result column="category_id" property="categoryId" />
+        <result column="question"    property="question" />
+        <result column="answer"      property="answer" />
+        <result column="status"      property="status" />
+        <result column="use_count"   property="useCount" />
+    </resultMap>
+
+    <!-- 按分类动态查询 FAQ（XML 方式示例） -->
+    <select id="selectByCategory" resultMap="faqResultMapXml">
+        SELECT id, category_id, question, answer, status, use_count
+        FROM t_faq
+        <where>
+            <if test="categoryId != null">
+                AND category_id = #{categoryId}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND question LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+        ORDER BY use_count DESC
+    </select>
+
+</mapper>

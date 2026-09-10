@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>艾瑞智能商城</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="navbar">
+        <div class="container nav-inner">
+            <a href="#" class="logo">艾瑞商城</a>
+            <nav class="nav-links">
+                <a href="#" class="nav-link active">首页</a>
+                <a href="#products" class="nav-link">全部商品</a>
+                <a href="#hot" class="nav-link">热销榜</a>
+                <a href="faq-test.html" class="nav-link">知识助手测试</a>
+            </nav>
+            <div class="nav-right">
+                <!-- 未登录时显示 -->
+                <div class="user-actions" id="user-actions">
+                    <button class="btn btn-ghost" id="login-btn">登录</button>
+                    <button class="btn btn-primary" id="register-btn">注册</button>
+                </div>
+                <!-- 已登录时显示 -->
+                <div class="user-actions" id="user-logged" style="display:none;">
+                    <span class="user-name" id="user-name">用户</span>
+                    <button class="btn btn-ghost" id="logout-btn">退出</button>
+                </div>
+                <button class="cart-icon" id="cart-icon" title="购物车">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-badge" id="cart-badge" style="display:none;">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 顶部横幅 -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-text">
+                <span class="hero-tag">AI 智能客服 · 全程护航</span>
+                <h1>精选数码好物<br>一站购齐</h1>
+                <p>热门商品、价格、库存随时问智能客服，购物更省心</p>
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="search-input" placeholder="搜索商品，如：耳机、电脑">
+                </div>
+                <a href="#products" class="btn btn-primary hero-btn">立即选购</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 分类筛选 + 商品列表 -->
+    <main class="container product-section" id="products">
+        <div class="section-head">
+            <h2>全部商品</h2>
+            <span class="section-sub" id="hot-anchor">按销量优先展示</span>
+        </div>
+        <div class="filter-bar" id="filter-bar">
+            <button class="filter-chip active" data-category="all">全部</button>
+            <button class="filter-chip" data-category="手机数码">手机数码</button>
+            <button class="filter-chip" data-category="电脑办公">电脑办公</button>
+            <button class="filter-chip" data-category="智能穿戴">智能穿戴</button>
+            <button class="filter-chip" data-category="智能家居">智能家居</button>
+            <button class="filter-chip" data-category="网络设备">网络设备</button>
+        </div>
+        <div class="product-grid" id="product-grid">
+            <!-- 商品卡片由 script.js 动态渲染 -->
+        </div>
+        <div class="empty-tip" id="empty-tip" style="display:none;">没有找到相关商品</div>
+    </main>
+
+    <!-- 热销榜 -->
+    <section class="container hot-section" id="hot">
+        <div class="section-head">
+            <h2>热销榜</h2>
+            <span class="section-sub">销量 TOP 6</span>
+        </div>
+        <div class="hot-grid" id="hot-grid">
+            <!-- 热销商品由 script.js 动态渲染 -->
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span>艾瑞智能商城 · Spring AI 实战示例</span>
+            <span>客服咨询请点击右下角图标</span>
+        </div>
+    </footer>
+
+    <!-- 登录弹窗 -->
+    <div class="modal-overlay" id="login-modal" style="display:none;">
+        <div class="modal">
+            <div class="modal-head">
+                <h3>登录</h3>
+                <button class="modal-close" data-close="login-modal">&times;</button>
+            </div>
+            <form class="modal-body" id="login-form">
+                <label>用户名</label>
+                <input type="text" id="login-username" placeholder="请输入用户名" autocomplete="username">
+                <label>密码</label>
+                <input type="password" id="login-password" placeholder="请输入密码" autocomplete="current-password">
+                <button type="submit" class="btn btn-primary btn-block">登 录</button>
+                <p class="modal-switch">还没有账号？<a href="#" id="go-register">立即注册</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- 注册弹窗 -->
+    <div class="modal-overlay" id="register-modal" style="display:none;">
+        <div class="modal">
+            <div class="modal-head">
+                <h3>注册</h3>
+                <button class="modal-close" data-close="register-modal">&times;</button>
+            </div>
+            <form class="modal-body" id="register-form">
+                <label>用户名</label>
+                <input type="text" id="register-username" placeholder="设置登录用户名" autocomplete="username">
+                <label>昵称（可选）</label>
+                <input type="text" id="register-nickname" placeholder="展示昵称，默认同用户名" autocomplete="nickname">
+                <label>密码</label>
+                <input type="password" id="register-password" placeholder="设置密码" autocomplete="new-password">
+                <button type="submit" class="btn btn-primary btn-block">注 册</button>
+                <p class="modal-switch">已有账号？<a href="#" id="go-login">去登录</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- 购物车抽屉 -->
+    <div class="drawer-overlay" id="cart-overlay" style="display:none;"></div>
+    <aside class="cart-drawer" id="cart-drawer">
+        <div class="cart-head">
+            <h3>购物车</h3>
+            <button class="modal-close" id="cart-close">&times;</button>
+        </div>
+        <div class="cart-body" id="cart-body">
+            <!-- 购物车条目由 script.js 动态渲染 -->
+        </div>
+        <div class="cart-foot" id="cart-foot" style="display:none;">
+            <div class="cart-total">
+                <span>合计</span>
+                <strong id="cart-total">¥0</strong>
+            </div>
+            <button class="btn btn-primary btn-block" id="cart-checkout">去结算</button>
+        </div>
+    </aside>
+
+    <!-- 客服聊天窗口 -->
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+            <h3>智能客服</h3>
+            <button class="close-chat" id="close-chat">&times;</button>
+        </div>
+        <div class="chat-body" id="chat-body"></div>
+        <div class="chat-footer">
+            <input type="text" id="message-input" placeholder="输入消息...">
+            <button id="send-button">发送</button>
+        </div>
+    </div>
+
+    <!-- 客服悬浮图标 -->
+    <button class="customer-service-icon" id="customer-service-icon" title="联系客服">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+    </button>
+
+    <!-- 轻提示 -->
+    <div class="toast" id="toast"></div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

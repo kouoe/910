@@ -1,0 +1,99 @@
+# ================================================================
+# application.yml 完整配置（艾瑞电商 AI 客服项目，第十二章所用）
+# 说明：api-key 已脱敏为环境变量占位符，生产环境务必使用环境变量注入
+# ================================================================
+
+# HTTP 服务配置：应用监听端口
+server:
+  port: 8080
+
+# 日志格式：%X{traceId} 输出 TraceIdFilter 放入 MDC 的链路追踪 ID
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %X{traceId:-} %logger{40} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %X{traceId:-} %logger{40} - %msg%n"
+
+spring:
+  # 数据源配置（Druid 连接池）
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3307/ai-agent?characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+    # druid-spring-boot-starter 自动配置（前缀必须为 spring.datasource.druid）
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 安全：关闭 Druid 监控页，避免未授权访问 /druid（历史 CVE 风险点）
+      stat-view-servlet:
+        enabled: false
+
+  # MyBatis 配置（纯 MyBatis，非 MyBatis-Plus）
+  mybatis:
+    type-aliases-package: com.airi.ai.agent.pojo
+    configuration:
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+      map-underscore-to-camel-case: true
+    mapper-locations: classpath:mapper/*.xml
+
+  # Spring AI 配置
+  ai:
+    dashscope:
+      api-key: ${DASHSCOPE_API_KEY:}
+      # 读超时（毫秒）：缓解长文本生成超时
+      read-timeout: 120000
+      chat:
+        options:
+          model: qwen-plus
+          temperature: 0.3
+      # 系统提示词（含 {knowledge} 占位符，由 AiAgentService.buildKnowledgeContext 注入 RAG 上下文）
+      prompt: |
+        你是艾瑞电商的 AI 客服小艾，专注于帮助用户解答购物相关问题。
+
+        你的职责包括：
+        1. 解答商品咨询、订单查询、售后服务等常见问题
+        2. 使用工具函数查询订单信息（按订单号或按状态）和商品信息
+           （商品搜索、价格查询、分类查询、价格区间查询、热销排行）
+        3. 基于【知识库内容】提供准确、友好的回答
+
+        回答规则（必须严格遵守）：
+        - 商品、订单、售后等事实性问题：只能依据【知识库内容】和工具查询结果回答，
+          严禁编造任何商品、价格、库存、活动等信息
+        - 若【知识库内容】为空或与问题无关，必须如实回答"目前没有查到相关信息，
+          建议联系人工客服"，严禁自行发挥或猜测
+        - 寒暄问候（如"你好""在吗"）可正常礼貌回应，无需依赖知识库
+        - 优先使用 FAQ 知识库中的标准答案
+        - 保持语气亲切、专业
+
+        知识库内容：
+        {knowledge}
+
+        当前日期：{current_date}
+      embedding:
+        api-key: ${DASHSCOPE_API_KEY:}
+        options:
+          model: text-embedding-v2
+        enabled: true
+
+    # Milvus 向量数据库
+    vectorstore:
+      milvus:
+        client:
+          host: 127.0.0.1   # 本机部署改为 127.0.0.1
+          port: 19530
+          username: ""
+          password: ""
+        databaseName: default
+        collectionName: common_response
+        embeddingDimension: 1536
+        indexType: IVF_FLAT
+        metricType: COSINE
+        initializeSchema: true

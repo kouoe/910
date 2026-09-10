@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知识助手测试控制台</title>
+    <link rel="stylesheet" href="css/faq-test.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <h1>智能电商客服助手 · 测试控制台</h1>
+            <a href="index.html" class="back-link">← 返回艾瑞智能商城</a>
+        </div>
+    </header>
+
+    <main class="console">
+        <!-- 左栏：AI 对话测试 -->
+        <section class="panel chat-panel">
+            <h2>① AI 对话测试</h2>
+            <div class="chat-box" id="chat-box">
+                <div class="bubble agent">你好，我是智能客服，请开始测试对话。</div>
+            </div>
+            <div class="chat-input-row">
+                <input type="text" id="chat-input" placeholder="输入问题，如：商品什么时候发货？">
+                <button id="chat-send">发送</button>
+            </div>
+            <div class="tips">
+                <strong>测试建议：</strong>
+                <ul>
+                    <li>RAG 命中：输入「商品什么时候发货？」</li>
+                    <li>防幻觉兜底：输入「你们有皮鞋吗？」</li>
+                    <li>订单工具：输入「帮我查一下AR100订单」</li>
+                    <li>敏感词拦截：输入「你们卖的是假货吗」</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 右栏：FAQ 知识库管理 -->
+        <section class="panel faq-panel">
+            <h2>② FAQ 知识库管理</h2>
+
+            <div class="filter-row">
+                <select id="filter-category">
+                    <option value="">全部分类</option>
+                    <option value="1">订单</option>
+                    <option value="2">支付</option>
+                    <option value="3">商品</option>
+                    <option value="4">账户</option>
+                    <option value="5">其他</option>
+                </select>
+                <input type="text" id="filter-keyword" placeholder="关键词">
+                <button id="btn-query">查询</button>
+                <button id="btn-sync" class="accent">全量同步 MySQL → Milvus</button>
+            </div>
+
+            <div class="form-box">
+                <h3 id="form-title">新增 FAQ</h3>
+                <input type="hidden" id="faq-id">
+                <div class="form-field">
+                    <label>问题</label>
+                    <input type="text" id="faq-question" placeholder="请输入问题">
+                </div>
+                <div class="form-field">
+                    <label>答案</label>
+                    <textarea id="faq-answer" rows="3" placeholder="请输入答案"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label>分类</label>
+                        <select id="faq-category">
+                            <option value="1">订单</option>
+                            <option value="2">支付</option>
+                            <option value="3">商品</option>
+                            <option value="4">账户</option>
+                            <option value="5">其他</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label>状态</label>
+                        <select id="faq-status">
+                            <option value="1">启用</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button id="btn-save">保存</button>
+                    <button id="btn-reset" class="ghost">取消编辑</button>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>分类</th>
+                            <th>问题</th>
+                            <th>答案</th>
+                            <th>状态</th>
+                            <th>命中</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="faq-tbody">
+                        <tr><td colspan="7" class="empty">暂无数据</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <button id="btn-prev">上一页</button>
+                <span id="page-info">第 1 / 1 页（共 0 条）</span>
+                <button id="btn-next">下一页</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/faq-test.js"></script>
+</body>
+</html>
