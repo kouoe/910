@@ -1,0 +1,29 @@
+name: Dependabot Updates
+
+version: 2
+updates:
+  # Java / Maven dependencies
+  - package-ecosystem: "maven"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+
+  # Python tooling dependencies
+  - package-ecosystem: "pip"
+    directory: "/tools/report-generator"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+
+  # GitHub Actions workflow versions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "ci"
