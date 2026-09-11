@@ -3,9 +3,15 @@
 import zipfile, os
 from PIL import Image
 
-SRC = r"C:\Users\shr18\Desktop\综合创新实践实习报告模板.docx"
-DST = r"C:\Users\shr18\Desktop\综合创新实践实习报告（完整版）.docx"
-IMG_DIR = r"d:\910\report_img"
+# Paths are resolved at runtime: report template/inputs live on the user's
+# Desktop, images come from the repository (docs/images).
+DESKTOP = os.path.join(os.path.expanduser("~"), "Desktop")
+SRC = os.path.join(DESKTOP, "综合创新实践实习报告模板.docx")
+DST = os.path.join(DESKTOP, "综合创新实践实习报告（完整版）.docx")
+IMG_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    "docs", "images",
+)
 
 GOLD = "B8860B"
 DARK = "1F1F1F"

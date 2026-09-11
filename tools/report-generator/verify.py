@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import zipfile, xml.dom.minidom as m
-p = r"C:\Users\shr18\Desktop\综合创新实践实习报告（完整版）.docx"
+import zipfile, xml.dom.minidom as m, os
+p = os.path.join(os.path.expanduser("~"), "Desktop", "综合创新实践实习报告（完整版）.docx")
 z = zipfile.ZipFile(p)
 names = z.namelist()
 print("media:", [n for n in names if "media" in n])

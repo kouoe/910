@@ -9,7 +9,10 @@ import os
 plt.rcParams["font.sans-serif"] = ["Microsoft YaHei", "SimHei"]
 plt.rcParams["axes.unicode_minus"] = False
 
-OUT_DIR = r"d:\910\report_img"
+# Resolve repository root from this file's location so the script works
+# no matter where the project is cloned (tools/report-generator/gen_images.py).
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+OUT_DIR = os.path.join(BASE_DIR, "docs", "images")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 GOLD = "#B8860B"

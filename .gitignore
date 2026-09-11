@@ -1,19 +1,31 @@
-# Maven 编译产物
+# ---------- Build output ----------
 target/
-spring-ai-sx/target/
+build/
+*.class
 
-# 编辑器配置
-.vscode/
+# ---------- IDE ----------
 .idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
 
-# Python
+# ---------- Python ----------
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
 venv/
 .venv/
 
-# 日志与临时文件
+# ---------- Docker runtime data (Milvus / etcd / MinIO volumes) ----------
+volumes/
+docker/volumes/
+
+# ---------- Local secrets (never commit these) ----------
+.env
+*.local
+
+# ---------- OS & misc ----------
+.DS_Store
+Thumbs.db
 *.log
 *.tmp
-.DS_Store
